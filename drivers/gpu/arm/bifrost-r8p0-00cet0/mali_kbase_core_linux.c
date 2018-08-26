@@ -362,7 +362,7 @@ static int kbase_legacy_dispatch(struct kbase_context *kctx,
 					0,
 					&mem_import->gpu_va,
 					&mem_import->va_pages,
-					&mem_import->flags, mem_import->header_page_number)) {
+					&mem_import->flags, 0 /* mem_import->header_page_number */)) {
 				mem_import->type = BASE_MEM_IMPORT_TYPE_INVALID;
 				ukh->ret = MALI_ERROR_FUNCTION_FAILED;
 			}

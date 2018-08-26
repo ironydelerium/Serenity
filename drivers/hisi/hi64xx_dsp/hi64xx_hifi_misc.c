@@ -751,7 +751,9 @@ static void hi64xx_watchdog_process(void)
 	/* stop soundtrigger asp dma */
 	hi64xx_soundtrigger_dma_close();
 
+#ifdef CONFIG_HISI_BB
 	rdr_codec_hifi_watchdog_process();
+#endif
 }
 
 static int hi64xx_sync_write(const void *arg, const unsigned int len)
@@ -2665,7 +2667,12 @@ enum {
 };
 
 
+#ifdef CONFIG_HISI_BB
 extern int rdr_audio_write_file(char *name, char *data, u32 size);
+#else
+static inline int rdr_audio_write_file(char* name, char* data, u32 size) { return 0; }
+#endif
+
 static int hi64xx_save_reg_file(char *path)
 {
 	int ret = 0;

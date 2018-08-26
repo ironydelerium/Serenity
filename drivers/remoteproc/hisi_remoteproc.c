@@ -1739,8 +1739,10 @@ int hisi_isp_rproc_case_set(enum hisi_isp_rproc_case_attr type)
         return -EINVAL;
     }
 
+#ifdef CONFIG_HISI_BB
 	if (sync_isplogcat() < 0)
 	    pr_err("[%s] Failed: sync_isplogcat\n", __func__);
+#endif
 
     dev->case_type = type;
 	if (type == SEC_CASE) {
@@ -2233,6 +2235,7 @@ static int default_isp_device_disable(void)
 
     return 0;
 }
+
 static int isp_device_disable(void)
 {
     struct rproc_boot_device *dev = &rproc_boot_dev;

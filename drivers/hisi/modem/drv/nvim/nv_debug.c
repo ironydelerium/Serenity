@@ -241,6 +241,7 @@ bool nv_debug_is_reset(void)
         }
         else
         {
+#ifdef CONFIG_HISI_BB
             /* 手机beta阶段复位，商用阶段不复位 */
             if(EDITION_USER == bbox_check_edition())
             {
@@ -252,6 +253,9 @@ bool nv_debug_is_reset(void)
                 nv_printf("phone product need reset system in beta! \n");
                 return true;
             }
+#else
+			return false;
+#endif
         }
     }
 }

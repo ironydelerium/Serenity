@@ -1163,8 +1163,10 @@ int tc_client_call(TC_NS_ClientContext *client_context,
 		client_context->session_id = smc_cmd->context_id;
 	}
 
+#ifdef CONFIG_TEELOG
 	/* wake_up tee log reader */
 	tz_log_write();
+#endif
 
 	if (operation_init) {
 		ret = update_client_operation(dev_file, client_context,

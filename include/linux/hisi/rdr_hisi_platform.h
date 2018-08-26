@@ -77,9 +77,9 @@ static inline void set_exception_info(unsigned long address){}
 static inline int register_module_dump_mem_func(rdr_hisiap_dump_func_ptr func,
 				  char *module_name, dump_mem_module modu){return -1;}
 static inline bool rdr_get_ap_init_done(void){return 0;}
-static inline bool unsigned long long get_pmu_reset_reg(void){return 0;}
+static inline unsigned long long get_pmu_reset_reg(void){return 0;}
 static inline void set_reboot_reason(unsigned int reboot_reason) {}
-static inline unsigned int get_reboot_reason(){return 0;}
+static inline unsigned int get_reboot_reason(void){return 0;}
 static inline int rdr_press_key_to_fastboot(struct notifier_block *nb,
 		unsigned long event, void *buf){return 0;}
 static inline void rdr_long_press_powerkey(void){}

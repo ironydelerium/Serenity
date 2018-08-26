@@ -243,7 +243,9 @@ static int hisi_pm_enter(suspend_state_t state)
 	pr_err("%s: mpidr is 0x%lx, cluster = %d, core = %d.\n", __func__, mpidr, cluster, core);
 
 	pm_gic_dump();
+#ifdef CONFIG_HISI_REGULATOR_DEBUG
 	get_ip_regulator_state();
+#endif
 	dbg_io_status_show();
 	dbg_pmu_status_show();
 	dbg_clk_status_show();

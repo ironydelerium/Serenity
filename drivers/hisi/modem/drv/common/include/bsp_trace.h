@@ -191,21 +191,11 @@ typedef enum _bsp_log_level_e
 /*****************************************************************************
   2 º¯ÊýÉùÃ÷
 *****************************************************************************/
-#ifdef ENABLE_BUILD_OM
-void bsp_trace(bsp_log_level_e log_level, bsp_module_e mod_id, char *fmt,...);
-
-unsigned int bsp_mod_level_set(bsp_module_e  mod_id ,unsigned int print_level);
-
-unsigned int bsp_log_module_cfg_get(bsp_module_e mod_id);
-
-#else
 static inline void bsp_trace(bsp_log_level_e log_level, bsp_module_e mod_id, char *fmt,...){return ;}
 
 static inline unsigned int bsp_mod_level_set(bsp_module_e  mod_id ,unsigned int print_level){return 0;}
 
 static inline unsigned int bsp_log_module_cfg_get(bsp_module_e mod_id){return 0;}
-
-#endif
 
 
 #ifdef __cplusplus

@@ -3138,6 +3138,7 @@ static __init int tc_init(void)
 	if (ret < 0)
 		goto free_agent;
 
+#ifdef CONFIG_HISI_BB
 	ret = TC_NS_register_rdr_mem();
 	if (ret)
 		TCERR("TC_NS_register_rdr_mem failed %x\n", ret);
@@ -3147,6 +3148,7 @@ static __init int tc_init(void)
 		TCERR("teeos_register_exception to rdr failed\n");
 	else
 		ret = 0;
+#endif
 
 	mutex_lock(&notify_data_lock);
 	if (!g_notify_data) {

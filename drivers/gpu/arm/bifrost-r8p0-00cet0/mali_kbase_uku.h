@@ -113,7 +113,9 @@ struct kbase_uk_mem_import {
 	/* OUT */
 	u64 gpu_va;
 	u64         va_pages;
+#if 0
 	u64         header_page_number;
+#endif
 };
 
 struct kbase_uk_mem_flags_change {

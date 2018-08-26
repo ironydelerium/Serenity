@@ -158,67 +158,26 @@ enum PM_OM_MEM_CTRL
 	PM_OM_USE_NORMAL_DDR = 1
 };
 
-/*****************************************************************************
-* 函 数 名  : bsp_pm_log
-*
-* 功能描述  : 输出流程信息到log区
-*
-* 输入参数  : mod_id	模块魔数，使用enum PM_OM_MOD_ID枚举类型定义的值
-*            data_len	输出数据长度
-*            data 		输出数据
-* 输出参数  : 无
-*
-* 返 回 值  : 0，执行成功；非0，失败
-*****************************************************************************/
+#ifdef CONFIG_PM_OM_BALONG
 int bsp_pm_log(u32 mod_id, u32 data_len , void *data);
-
-/*****************************************************************************
-* 函 数 名  : bsp_pm_log_type
-*
-* 功能描述  : 输出流程信息到log区(带typeid，方便脚本统一解析)
-*
-* 输入参数  : mod_id	模块魔数，使用enum PM_OM_MOD_ID枚举类型定义的值
-*            type		模块内部typeid，方便脚本统一解析
-*            data_len	输出数据长度
-*            data 		输出数据
-* 输出参数  : 无
-*
-* 返 回 值  : 0，执行成功；非0，失败
-*****************************************************************************/
 int bsp_pm_log_type(u32 mod_id, u32 type, u32 data_len , void *data);
-
-/*****************************************************************************
-* 函 数 名  : bsp_pm_log_addr_get
-*
-* 功能描述  : 获取log区基地址
-*
-* 输入参数  : 无
-*
-* 输出参数  : 无
-*
-* 返 回 值  : 非NULL，执行成功；NULL，失败，无log区
-*****************************************************************************/
 void *bsp_pm_log_addr_get(void);
-
-/*****************************************************************************
-* 函 数 名  : bsp_pm_dump_get
-*
-* 功能描述  : dump区分配
-*
-* 输入参数  : mod_id	模块魔数，使用enum PM_OM_MOD_ID枚举类型定义的值
-*             len       待获取dump区的大小
-*
-* 输出参数  : 无
-*
-* 返 回 值  : 非NULL，执行成功；NULL，失败
-*****************************************************************************/
 void *bsp_pm_dump_get(u32 mod_id, u32 len);
-
 int bsp_pm_om_log_init(void);
 int bsp_pm_om_dump_init(void);
-
 void pm_om_wakeup_stat(void);
 void pm_om_wakeup_log(void);
+#else
+static inline int bsp_pm_log(u32 mod, u32 len, void* data) { return 0; }
+static inline int bsp_pm_log_type(u32 mod, u32 type, u32 len, void* data) { return 0; }
+static inline void* bsp_pm_log_addr_get(void) { return NULL; }
+static inline void* bsp_pm_dump_get(u32 mod, u32 len) { return NULL; }
+static inline int bsp_pm_om_log_init(void) { return 0; }
+static inline int bsp_pm_om_dump_init(void) { return 0; }
+static inline void pm_om_wakeup_stat(void) {}
+static inline void pm_om_wakeup_log(void) {}
+#endif
+
 /* 模块错误码 */
 #define PM_OM_OK            (0)
 #define PM_OM_ERR           (-1)
@@ -562,6 +521,7 @@ static inline void __attribute__((unused))pm_om_log_sw_set(u64 *mod_sw_bitmap, u
 	(*mod_sw_bitmap) = value;
 }
 
+#ifdef CONFIG_PM_OM_BALONG
 struct pm_om_ctrl *pm_om_ctrl_get(void);
 
 int bsp_pm_info_stat_register(pm_info_cbfun pcbfun, struct pm_info_usr_data *usr_data);
@@ -572,6 +532,15 @@ void pm_om_log_off(void);
 void pm_om_dbg_on(void);
 void pm_om_dbg_off(void);
 void modem_log_fwrite_trigger_force(void);
+#else
+static inline struct pm_om_ctrl *pm_om_ctrl_get(void) { return NULL; }
+static inline int bsp_pm_info_stat_register(pm_info_cbfun pcbfun, struct pm_info_usr_data *data) { return 0; }
+static inline void pm_om_log_on(void) {}
+static inline void pm_om_log_off(void) {}
+static inline void pm_om_dbg_on(void) {}
+static inline void pm_om_dbg_off(void) {}
+static inline void modem_log_fwrite_trigger_force(void) {}
+#endif
 
 #ifdef __cplusplus
 }

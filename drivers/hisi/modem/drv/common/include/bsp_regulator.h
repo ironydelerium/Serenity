@@ -296,8 +296,13 @@ extern int regulator_get_id(struct regulator *regulator);
 
 #define AVS_MAGIC_NUM      (0x4156534D)   /*AVSM*/
 
+#if 0
 #define  avs_err(fmt,...)		(bsp_trace(BSP_LOG_LEVEL_ERROR, BSP_MODU_AVS, "<%s> <%d>"fmt, __FUNCTION__, __LINE__, ##__VA_ARGS__))
 #define  avs_warn(fmt,...)		(bsp_trace(BSP_LOG_LEVEL_WARNING, BSP_MODU_AVS, "<%s> <%d>"fmt, __FUNCTION__, __LINE__, ##__VA_ARGS__))
+#else
+#define avs_err(fmt, ...) printk(KERN_ERR "<%s> <%d>" fmt, __FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define avs_warn(fmt, ...) printk(KERN_WARNING "<%s> <%d>" fmt, __FUNCTION__, __LINE__, ##__VA_ARGS__)
+#endif
 
 enum avs_core_type{
 	AVS_CORE_CCPU = 0,

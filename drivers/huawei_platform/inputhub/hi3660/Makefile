@@ -17,8 +17,13 @@ obj-$(CONFIG_INPUTHUB)  += sensor_detect.o
 obj-$(CONFIG_INPUTHUB)  += cahub_channel.o
 obj-$(CONFIG_INPUTHUB)  += fingerprinthub_channel.o
 obj-$(CONFIG_INPUTHUB)  += sensor_sys_info.o
-#ifdef CONFIG_HISI_BB
-obj-$(CONFIG_INPUTHUB)  += rdr_sensorhub.o
-obj-$(CONFIG_INPUTHUB)  += kbhub_channel.o
 
-#endif
+hi3660-y =
+hi3660-m =
+hi3660-n =
+
+hi3660-$(CONFIG_HISI_BB) += rdr_sensorhub.o 
+
+obj-$(CONFIG_INPUTHUB) += kbhub_channel.o
+obj-$(CONFIG_INPUTHUB) += $(hi3660-y)
+

@@ -142,7 +142,6 @@
 #endif 
 
 #ifndef ENABLE_BUILD_OM
-#define ENABLE_BUILD_OM 
 #endif 
 
 #ifndef FEATURE_OM_PHONE

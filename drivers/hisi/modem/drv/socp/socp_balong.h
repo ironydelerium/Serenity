@@ -916,7 +916,14 @@ void socp_help(void);
 //#define Socp_Memset(src,count,len)     (void)memset_s(src, len,count,len)
 
 #endif
+
+static inline void socp_printf(char* fmt, ...) {
+	/* Do nothing */
+}
+
+#if 0
 #define socp_printf(fmt,...)     bsp_trace(BSP_LOG_LEVEL_ERROR,BSP_MODU_SOCP,fmt,##__VA_ARGS__)
+#endif
 
 #define BIT_N(n)                (0x01 << (n))
 #define SOCP_DEBUG_READ_DONE    BIT_N(0)

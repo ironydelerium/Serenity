@@ -61,7 +61,10 @@ extern void emg_flush_logbuff(void);
 extern void reset_logbuff(void);
 
 extern int g_iom3_state;
+
+#ifdef CONFIG_HISI_BB
 extern struct completion sensorhub_rdr_completion;
+#endif
 
 static int isSensorMcuMode;	/*mcu power mode: 0 power off;  1 power on */
 static struct notifier_block nb;
@@ -151,10 +154,12 @@ static struct completion iom3_rec_done;
 #endif
 
 static void __iomem* iomcu_cfg_base;
+#ifdef CONFIG_HISI_BB
 extern unsigned long g_sensorhub_extend_dump_buff;
-extern uint8_t* g_sensorhub_extend_dump_buff_remap;
 extern uint32_t g_dump_extend_size;
 extern uint32_t g_enable_dump;
+extern uint8_t* g_sensorhub_extend_dump_buff_remap;
+#endif
 #ifdef CONFIG_HUAWEI_CHARGER_SENSORHUB
 extern struct coul_core_info_sh *g_di_coul_info_sh;
 extern struct charge_core_info_sh *g_core_info_sh;
@@ -509,7 +514,10 @@ static void iom3_recovery_work(struct work_struct* work)
     hwlog_err("%s enter\n", __func__);
     wake_lock(&iom3_rec_wl);
     peri_used_request();
+#ifdef CONFIG_HISI_BB
     wait_for_completion(&sensorhub_rdr_completion);
+#endif
+
 recovery_iom3:
 
     if (rec_nest_count++ > IOM3_REC_NEST_MAX)
@@ -542,7 +550,9 @@ recovery_iom3:
     show_iom3_stat();	/*only for IOM3 debug*/
     reset_i2c_0_controller();
     reset_logbuff();
+#ifdef CONFIG_HISI_BB
     write_ramdump_info_to_sharemem();
+#endif
     write_timestamp_base_to_sharemem();
     reset_charge();
 
@@ -624,6 +634,7 @@ int iom3_need_recovery(int modid, exp_source_t f)
         //flush old logs
         emg_flush_logbuff();
 
+#ifdef CONFIG_HISI_BB
         //write extend dump config
         if (g_enable_dump && g_dump_extend_size && !g_sensorhub_extend_dump_buff)
         {
@@ -637,11 +648,13 @@ int iom3_need_recovery(int modid, exp_source_t f)
                 barrier();
             }
         }
+#endif
 
 #ifdef CONFIG_HISI_BB
         rdr_system_error(modid, 0, 0);
 #endif
 
+#ifdef CONFIG_HISI_BB
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 13, 0))
         INIT_COMPLETION(sensorhub_rdr_completion);
 #else
@@ -649,6 +662,7 @@ int iom3_need_recovery(int modid, exp_source_t f)
 #endif
         __send_nmi();
         notify_rdr_thread();
+#endif
         queue_delayed_work(iom3_rec_wq, &iom3_rec_work, 0);
     }
 
@@ -764,12 +778,14 @@ static int inputhub_mcu_init(void)
 
     write_timestamp_base_to_sharemem();
 
+#ifdef CONFIG_HISI_BB
     ret = rdr_sensorhub_init();
 
     if (ret < 0)
     {
         hwlog_err("%s rdr_sensorhub_init ret=%d\n", __func__, ret);
     }
+#endif
 
     if (get_iomcu_cfg_base())
     { return -1; }

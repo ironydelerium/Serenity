@@ -32,12 +32,16 @@ static void __iomem *powerhold_gpio_base;
 static int g_powerhold_gpio_offset = 0;
 
 #include <linux/hisi/rdr_hisi_platform.h>
+#ifdef CONFIG_HISI_BB
 #include <rdr_inner.h>
+#endif
 
 static void __iomem *sysctrl_base;
 extern void (*pm_power_off)(void);
 extern void (*arm_pm_restart)(char str, const char *cmd);
+#ifdef CONFIG_HISI_BB
 extern struct cmdword reboot_reason_map[];
+#endif
 
 void hisi_pm_system_off(void)
 {
@@ -70,7 +74,9 @@ Return:		    NA
 ********************************************************************************/
 void hisi_pm_system_reset(char mode, const char *cmd)
 {
+#ifdef CONFIG_HISI_BB
     unsigned int i;
+#endif
     unsigned int curr_reboot_type = UNKNOWN;
 
     if (cmd == NULL || *cmd == '\0') {
@@ -79,12 +85,14 @@ void hisi_pm_system_reset(char mode, const char *cmd)
     } else {
         printk(KERN_ERR "hisi_pm_system_reset cmd is %s\n", cmd);
     }
+#ifdef CONFIG_HISI_BB
     for (i=0; i < get_reboot_reason_map_size(); i++) {
         if (!strncmp((char *)reboot_reason_map[i].name, cmd, sizeof(reboot_reason_map[i].name))) {
             curr_reboot_type = reboot_reason_map[i].num;
             break;
         }
     }
+#endif
     if (UNKNOWN == curr_reboot_type) {
         curr_reboot_type = COLDBOOT;
         console_verbose();

@@ -54,7 +54,10 @@
 #include <bsp_icc.h>
 #include <bsp_trace.h>
 /*lint --e{64}*//*64:list_for_each_entry*/
-#define  pmic_print_error(fmt, ...)    (bsp_trace(BSP_LOG_LEVEL_ERROR, BSP_MODU_PMU, "[pmu]: <%s> "fmt, __FUNCTION__, ##__VA_ARGS__))
+#define  pmic_print_error(fmt, ...)    do { ; } while (0)
+#if 0
+printk(KERN_ERR "[pmu]: <%s> " fmt, __FUNCTION__, ##__VA_ARGS__))
+#endif
 /*#define  pmic_print_info(fmt, ...)     (bsp_trace(BSP_LOG_LEVEL_INFO, BSP_MODU_PMU, "[pmu]: <%s> "fmt, __FUNCTION__, ##__VA_ARGS__))*/
 
 struct pmic_volt_ocp

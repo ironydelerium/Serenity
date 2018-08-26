@@ -218,7 +218,6 @@ struct map_sglist_s {
 };
 
 unsigned int map_type_info[MAP_TYPE_MAX];
-extern u64 get_isprdr_addr(void);
 extern int use_sec_isp(void);
 static int free_secmem_ion(void *data);
 static int smmu_err_addr_free(void);

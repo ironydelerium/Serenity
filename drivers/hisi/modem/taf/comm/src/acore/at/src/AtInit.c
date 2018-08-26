@@ -2850,10 +2850,12 @@ VOS_UINT32  At_PidInit(enum VOS_INIT_PHASE_DEFINE enPhase)
                                                ACPU_RESET_PRIORITY_AT);
 
             /* 给低软注册回调函数，用于HIFI单独复位的处理 */
+#ifdef CONFIG_HISI_BB
             hifireset_regcbfunc(NAS_AT_FUNC_PROC_NAME,
                                     AT_HifiResetCallback,
                                     0,
                                     ACPU_RESET_PRIORITY_AT);
+#endif
 
             AT_InitMntnCtx();
 

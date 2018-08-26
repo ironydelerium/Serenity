@@ -173,17 +173,16 @@ hisifb-objs += \
 	dp/intr.o \
 	dp/edid.o \
 	dp/link.o \
-	dp/drm_dp_helper.o \
-	panel/dp_fake_panel.o
+	dp/drm_dp_helper.o
 
 hisifb-objs += hdcp22/host_lib_driver_linux_kernel.o \
 			hdcp22/hdcp13.o
 endif
 
-hisifb-objs += \
-	panel/lcdc_fake_panel.o \
-	panel/mipi_fake_panel.o \
-	panel/hdmi_fake_panel.o
+# hisifb-objs += \
+#	panel/lcdc_fake_panel.o \
+#	panel/mipi_fake_panel.o \
+#	panel/hdmi_fake_panel.o
 
 hisifb-objs += voltage/tps65132.o
 hisifb-objs += voltage/rt4801h.o

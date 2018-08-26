@@ -1,0 +1,30 @@
+# Dependencies
+
+[mkbootimg](https://github.com/osm0sis/mkbootimg)
+[Linaro GCC 4.9 for aarch64-linux-gnu](https://releases.linaro.org/components/toolchain/binaries/latest-4/aarch64-linux-gnu/)
+
+# Building
+
+Edit make_image.sh, change:
+
+* TOOLCHAIN should be set to the full path to the Linaro GCC toolchain.
+* MKBOOTIMAGE should be set to the path of the mkbootimg binary.
+* OUTDIR should be the directory you want the compiled files to go
+
+Run `./make_image.sh`. If the compile is successful, you will have `$OUTDIR/kernel.img` available for fastboot flashing.
+
+# Changes from [upstream](https://github.com/wirmpolter/Serenity)
+
+* pie_defconfig, based on serenity_defconfig
+* Huawei livepatching (OASES) disabled.
+* Huawei runtime data recorder (blackbox) disabled.
+* Huawei bootfail monitor disabled.
+* Huawei root checker disabled.
+* Code changes around the disabling of the blackbox and BFM stacks. 
+  (Huawei, of course, didn't make these easy to remove; the code didn't account for the options at all.)
+* Mali driver has been patched to allow the use of the [HiKey960](https://www.96boards.org/product/hikey960/) Mali driver stack, instead of the Huawei stack.
+
+# Thanks
+
+[wirmpolter](https://gituhb.com/wirmpolter)
+

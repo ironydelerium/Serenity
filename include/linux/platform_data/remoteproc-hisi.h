@@ -337,9 +337,16 @@ int nonsec_isp_device_enable(void);
 int nonsec_isp_device_disable(void);
 int hisp_nsec_jpeg_powerup(void);
 int hisp_nsec_jpeg_powerdn(void);
+#ifdef CONFIG_HISI_BB
 int sync_isplogcat(void);
 int start_isplogcat(void);
 void stop_isplogcat(void);
+#else
+static inline int sync_isplogcat(void) { return 0; }
+static inline int start_isplogcat(void) { return 0; }
+static inline void stop_isplogcat(void) {}
+#endif
+
 void set_rpmsg_status(int status);
 int is_ispcpu_powerup(void);
 void hisp_sendin(void);
@@ -366,12 +373,23 @@ extern size_t print_time(u64 ts, char *buf);
 extern unsigned int get_slice_time(void);
 unsigned int a7_mmu_map(struct scatterlist *sgl, unsigned int size, unsigned int prot, unsigned int flag);
 void a7_mmu_unmap(unsigned int va, unsigned int size);
+#ifdef CONFIG_HISI_BB
 extern u64 get_isprdr_addr(void);
-void ispperfctrl_update(void);
 void isploglevel_update(void);
+#else
+static inline u64 get_isprdr_addr(void) { return 0; }
+static inline void isploglevel_update(void) {}
+#endif
+
+void ispperfctrl_update(void);
 void ispperf_stop_record(void);
+#ifdef CONFIG_HISI_BB
 void wait_firmware_coredump(void);
+#else
+static inline void wait_firmware_coredump(void) {}
+#endif
 void ispcoresight_update(void);
+
 void ispmonitor_update(void);
 
 void virtqueue_sg_init(struct scatterlist *sg, void *va, dma_addr_t dma, int size);

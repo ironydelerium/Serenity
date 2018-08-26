@@ -195,7 +195,9 @@ static int smc_thread_fn(void *arg)
 		if (ret == TSP_CRASH) {
 			tlogd("System has crashed!\n");
 			sys_crash = 1;
+#ifdef CONFIG_TEELOG
 			tlogger_store_lastmsg();
+#endif
 			(void)teeos_log_exception_archive();
 			rdr_system_error(0x83000001, 0, 0);
 			break;
@@ -236,7 +238,9 @@ static int smc_thread_fn(void *arg)
 				if(TEEC_ORIGIN_TRUSTED_APP_TUI == cmd.err_origin){
 					do_ns_tui_release();
 				}
+#ifdef CONFIG_TEELOG
 				tlogger_store_lastmsg();
+#endif
 				if (0 > teeos_log_exception_archive())
 					tloge("log_exception_archive failed\n");
 			}
