@@ -13,6 +13,17 @@ Edit make_image.sh, change:
 
 Run `./make_image.sh`. If the compile is successful, you will have `$OUTDIR/kernel.img` available for fastboot flashing.
 
+# make_image.sh
+
+By default, running `./make_image.sh` will do a full build and place the resulting `kernel.img` file into $OUTDIR.
+
+* `./make_image.sh defconfig` -- construct the default configuration
+* `./make_image.sh build` -- executes the build
+* `./make_image.sh devbuild` -- executes the build, but with 'make -j1' (for easier finding code that broke)
+* `./make_image.sh makeimage` -- constructs the kernel.img file
+* `./make_image.sh confiugre` -- starts Linux kernel configuration (menuconfig)
+* `./make_image.sh all` -- the default: defconfig, build, makeimage
+
 # Changes from [upstream](https://github.com/wirmpolter/Serenity)
 
 * pie_defconfig, based on serenity_defconfig
