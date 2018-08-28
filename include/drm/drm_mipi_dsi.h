@@ -256,4 +256,21 @@ void mipi_dsi_driver_unregister(struct mipi_dsi_driver *driver);
 	module_driver(__mipi_dsi_driver, mipi_dsi_driver_register, \
 			mipi_dsi_driver_unregister)
 
+static inline int mipi_dsi_pixel_format_to_bpp(enum mipi_dsi_pixel_format fmt)
+{
+    switch (fmt) {
+    case MIPI_DSI_FMT_RGB888:
+    case MIPI_DSI_FMT_RGB666:
+        return 24;
+
+    case MIPI_DSI_FMT_RGB666_PACKED:
+        return 18;
+
+    case MIPI_DSI_FMT_RGB565:
+        return 16;
+    }
+
+    return -EINVAL;
+}
+
 #endif /* __DRM_MIPI_DSI__ */

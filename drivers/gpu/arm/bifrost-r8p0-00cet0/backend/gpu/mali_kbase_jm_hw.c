@@ -38,10 +38,8 @@
 #include "mali_kbase_config_platform.h"
 #include "mali_kbase_config_hifeatures.h"
 
-/*lint -e750 -esym(750,*)*/
 #define beenthere(kctx, f, a...) \
 			dev_dbg(kctx->kbdev->dev, "%s:" f, __func__, ##a)
-/*lint -e750 +esym(750,*)*/
 
 #if KBASE_GPU_RESET_EN
 static void kbasep_try_reset_gpu_early(struct kbase_device *kbdev);
@@ -139,7 +137,7 @@ void kbase_job_hw_submit(struct kbase_device *kbdev,
 	katom->start_timestamp = ktime_get();
 
 	/* GO ! */
-	dev_dbg(kbdev->dev, "JS: Submitting atom %pK from ctx %pK to js[%d] with head=0x%llx, affinity=0x%llx",
+	dev_dbg(kbdev->dev, "JS: Submitting atom %p from ctx %p to js[%d] with head=0x%llx, affinity=0x%llx",
 				katom, kctx, js, jc_head, katom->affinity);
 
 	KBASE_TRACE_ADD_SLOT_INFO(kbdev, JM_SUBMIT, kctx, katom, jc_head, js,
@@ -312,12 +310,6 @@ void kbase_job_done(struct kbase_device *kbdev, u32 done)
 							kbase_exception_name
 							(kbdev,
 							completion_code));
-#ifdef CONFIG_HISI_ENABLE_HPM_DATA_COLLECT
-					/*benchmark data collect */
-					if (kbase_has_hi_feature(kbdev, KBASE_FEATURE_HI0009)) {
-						BUG_ON(1);  //lint !e730
-					}
-#endif
 				}
 
 				kbase_gpu_irq_evict(kbdev, i);
@@ -802,12 +794,6 @@ static enum hrtimer_restart zap_timeout_callback(struct hrtimer *timer)
 								ZAP_TIMEOUT);
 		kbdev->error_num.soft_reset++;
 		kbdev->error_num.ts = hisi_getcurtime();
-#ifdef CONFIG_HISI_ENABLE_HPM_DATA_COLLECT
-		/*benchmark data collect */
-		if (kbase_has_hi_feature(kbdev, KBASE_FEATURE_HI0009)) {
-			BUG_ON(1); //lint !e730
-		}
-#endif
 		kbase_reset_gpu(kbdev);
 	}
 #endif /* KBASE_GPU_RESET_EN */
@@ -842,7 +828,7 @@ void kbase_jm_wait_for_zero_jobs(struct kbase_context *kctx)
 	 * policy queue either */
 	wait_event(kctx->jctx.zero_jobs_wait, kctx->jctx.job_nr == 0);
 	wait_event(kctx->jctx.sched_info.ctx.is_scheduled_wait,
-		   !kbase_ctx_flag(kctx, KCTX_SCHEDULED));//lint !e666
+		   !kbase_ctx_flag(kctx, KCTX_SCHEDULED));
 
 	spin_lock_irqsave(&reset_data.lock, flags);
 	if (reset_data.stage == 1) {
@@ -859,11 +845,11 @@ void kbase_jm_wait_for_zero_jobs(struct kbase_context *kctx)
 		 */
 		wait_event(kbdev->hwaccess.backend.reset_wait,
 				atomic_read(&kbdev->hwaccess.backend.reset_gpu)
-						== KBASE_RESET_GPU_NOT_PENDING);//lint !e666
+						== KBASE_RESET_GPU_NOT_PENDING);
 	}
 	destroy_hrtimer_on_stack(&reset_data.timer);
 
-	dev_dbg(kbdev->dev, "Zap: Finished Context %pK", kctx);
+	dev_dbg(kbdev->dev, "Zap: Finished Context %p", kctx);
 
 	/* Ensure that the signallers of the waitqs have finished */
 	mutex_lock(&kctx->jctx.lock);
@@ -1066,12 +1052,6 @@ void kbase_job_slot_hardstop(struct kbase_context *kctx, int js,
 
 			kbdev->error_num.soft_reset++;
 			kbdev->error_num.ts = hisi_getcurtime();
-#ifdef CONFIG_HISI_ENABLE_HPM_DATA_COLLECT
-			/*benchmark data collect */
-			if (kbase_has_hi_feature(kbdev, KBASE_FEATURE_HI0009)) {
-				BUG_ON(1); //lint !e730
-			}
-#endif
 			kbase_reset_gpu_locked(kbdev);
 		}
 	}

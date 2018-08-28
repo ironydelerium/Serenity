@@ -15,7 +15,7 @@
 
 
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 
 #include <linux/seq_file.h>
 #include <mali_kbase.h>
@@ -232,4 +232,4 @@ void kbasep_jd_debugfs_ctx_init(struct kbase_context *kctx)
 
 }
 
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */

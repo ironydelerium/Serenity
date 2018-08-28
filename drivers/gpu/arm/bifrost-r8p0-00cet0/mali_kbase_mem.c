@@ -1915,7 +1915,7 @@ void kbase_gpu_vm_unlock(struct kbase_context *kctx)
 
 KBASE_EXPORT_TEST_API(kbase_gpu_vm_unlock);
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 struct kbase_jit_debugfs_data {
 	int (*func)(struct kbase_jit_debugfs_data *);
 	struct mutex lock;
@@ -2092,7 +2092,7 @@ void kbase_jit_debugfs_init(struct kbase_context *kctx)
 	debugfs_create_file("mem_jit_phys", S_IRUGO, kctx->kctx_dentry,
 			kctx, &kbase_jit_debugfs_phys_fops);
 }
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */
 
 /**
  * kbase_jit_destroy_worker - Deferred worker which frees JIT allocations

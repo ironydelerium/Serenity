@@ -25,7 +25,7 @@
 #include <linux/list.h>
 #include <linux/file.h>
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 
 struct debug_mem_mapping {
 	struct list_head node;

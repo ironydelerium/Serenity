@@ -19,7 +19,7 @@
 #include <linux/spinlock.h>
 #include <mali_kbase_hwaccess_jm.h>
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 
 static bool kbase_is_job_fault_event_pending(struct kbase_device *kbdev)
 {
@@ -483,7 +483,7 @@ void kbase_debug_job_fault_context_term(struct kbase_context *kctx)
 	vfree(kctx->reg_dump);
 }
 
-#else /* CONFIG_HISI_DEBUG_FS */
+#else /* CONFIG_DEBUG_FS */
 
 int kbase_debug_job_fault_dev_init(struct kbase_device *kbdev)
 {
@@ -496,4 +496,4 @@ void kbase_debug_job_fault_dev_term(struct kbase_device *kbdev)
 {
 }
 
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */

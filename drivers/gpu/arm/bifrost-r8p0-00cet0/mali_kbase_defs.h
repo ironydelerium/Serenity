@@ -59,9 +59,9 @@
 #include "mali_kbase_fence_defs.h"
 #endif
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 #include <linux/debugfs.h>
-#endif				/* CONFIG_HISI_DEBUG_FS */
+#endif				/* CONFIG_DEBUG_FS */
 
 #ifdef CONFIG_PM_DEVFREQ
 #include <linux/devfreq.h>
@@ -233,7 +233,7 @@
 /* Reset the GPU after each atom completion */
 #define KBASE_SERIALIZE_RESET (1 << 2)
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 struct base_job_fault_event {
 
 	u32 event_code;
@@ -582,7 +582,7 @@ struct kbase_jd_atom {
 	u32 flush_id;
 
 	struct kbase_jd_atom_backend backend;
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 	struct base_job_fault_event fault_event;
 #endif
 
@@ -1191,7 +1191,7 @@ struct kbase_device {
 	/* procfs entry for gpu_memory */
 	struct proc_dir_entry *proc_gpu_memory_dentry;
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 	/* directory for debugfs entries */
 	struct dentry *mali_debugfs_directory;
 	/* Root directory for per context entry */
@@ -1217,7 +1217,7 @@ struct kbase_device {
 				   dumped upon request */
 	} regs_dump_debugfs_data;
 #endif /* !MALI_CUSTOMER_RELEASE */
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */
 
 	/* fbdump profiling controls set by gator */
 	u32 kbase_profiling_controls[FBDUMP_CONTROL_MAX];
@@ -1244,10 +1244,10 @@ struct kbase_device {
 	/* Total number of created contexts */
 	atomic_t ctx_num;
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 	/* Holds the most recent register accesses */
 	struct kbase_io_history io_history;
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */
 
 	/* set to 0, means not restrict outstanding */
 	u32 gpu_outstanding;
@@ -1516,7 +1516,7 @@ struct kbase_context {
 #ifdef CONFIG_MALI_TRACE_TIMELINE
 	struct kbase_trace_kctx_timeline timeline;
 #endif
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 	/* Content of mem_profile file */
 	char *mem_profile_data;
 	/* Size of @c mem_profile_data */
@@ -1534,7 +1534,7 @@ struct kbase_context {
 	 */
 	struct list_head job_fault_resume_event_list;
 
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */
 
 	struct jsctx_queue jsctx_queue
 		[KBASE_JS_ATOM_SCHED_PRIO_COUNT][BASE_JM_MAX_NR_SLOTS];

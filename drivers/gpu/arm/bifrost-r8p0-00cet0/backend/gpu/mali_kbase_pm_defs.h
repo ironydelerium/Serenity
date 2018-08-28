@@ -99,9 +99,6 @@ enum kbase_pm_core_type {
  *
  */
 struct kbasep_pm_metrics_data {
-	int vsync_hit;
-	int utilisation;
-	int cl_boost;
 	ktime_t time_period_start;
 	u32 time_busy;
 	u32 time_idle;
@@ -121,6 +118,10 @@ struct kbasep_pm_metrics_data {
 
 	void *platform_data;
 	struct kbase_device *kbdev;
+
+	int vsync_hit;
+	int utilisation;
+	int cl_boost;
 #ifdef MALI_HISI_CL_BOOST
 	atomic_t time_compute_jobs, time_vertex_jobs, time_fragment_jobs;
 #endif

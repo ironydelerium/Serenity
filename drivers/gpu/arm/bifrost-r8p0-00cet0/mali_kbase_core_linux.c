@@ -489,11 +489,18 @@ copy_failed:
 	case KBASE_FUNC_JOB_SUBMIT:
 		{
 			struct kbase_uk_job_submit *job = args;
+			char __user *user_buf;
 
 			if (sizeof(*job) != args_size)
 				goto bad_size;
 
-			if (kbase_jd_submit(kctx, u64_to_user_ptr(job->addr),
+#ifdef CONFIG_COMPAT
+			if (kbase_ctx_flag(kctx, KCTX_COMPAT))
+				user_buf = compat_ptr(job->addr);
+			else
+#endif
+				user_buf = u64_to_user_ptr(job->addr);
+			if (kbase_jd_submit(kctx, user_buf,
 						job->nr_atoms,
 						job->stride,
 						false) != 0)
@@ -1085,7 +1092,7 @@ static int kbase_open(struct inode *inode, struct file *filp)
 	struct kbase_device *kbdev = NULL;
 	struct kbase_context *kctx;
 	int ret = 0;
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 	char kctx_name[64];
 #endif
 
@@ -1107,7 +1114,7 @@ static int kbase_open(struct inode *inode, struct file *filp)
 	if (kbdev->infinite_cache_active_default)
 		kbase_ctx_flag_set(kctx, KCTX_INFINITE_CACHE);
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 	snprintf(kctx_name, 64, "%d_%d", kctx->tgid, kctx->id);
 
 	kctx->kctx_dentry = debugfs_create_dir(kctx_name,
@@ -1131,7 +1138,7 @@ static int kbase_open(struct inode *inode, struct file *filp)
 	kbase_mem_pool_debugfs_init(kctx->kctx_dentry, &kctx->mem_pool, &kctx->lp_mem_pool);
 
 	kbase_jit_debugfs_init(kctx);
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */
 
 	dev_dbg(kbdev->dev, "created base context\n");
 
@@ -1169,7 +1176,7 @@ static int kbase_release(struct inode *inode, struct file *filp)
 
 	KBASE_TLSTREAM_TL_DEL_CTX(kctx);//lint !e648
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 	kbasep_mem_profile_debugfs_remove(kctx);
 	kbase_debug_job_fault_context_term(kctx);
 #endif
@@ -3762,7 +3769,7 @@ static ssize_t set_gpu_error_info(struct device *dev, struct device_attribute *a
 
 static DEVICE_ATTR(gpu_error_info, S_IRUGO | S_IWUSR, show_gpu_error_info, set_gpu_error_info);
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 
 /* Number of entries in serialize_jobs_settings[] */
 #define NR_SERIALIZE_JOBS_SETTINGS 5
@@ -3885,7 +3892,7 @@ static const struct file_operations kbasep_serialize_jobs_debugfs_fops = {
 	.release = single_release,
 };
 
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */
 
 static int kbasep_protected_mode_init(struct kbase_device *kbdev)
 {
@@ -4172,7 +4179,7 @@ static void power_control_term(struct kbase_device *kbdev)
 #endif /* LINUX_VERSION_CODE >= 3, 12, 0 */
 }
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 
 #if KBASE_GPU_RESET_EN
 #include <mali_kbase_hwaccess_jm.h>
@@ -4337,11 +4344,11 @@ static int kbase_device_debugfs_init(struct kbase_device *kbdev)
 #endif /* CONFIG_DEVFREQ_THERMAL */
 #endif /* CONFIG_MALI_DEVFREQ */
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 	debugfs_create_file("serialize_jobs", S_IRUGO | S_IWUSR,
 			kbdev->mali_debugfs_directory, kbdev,
 			&kbasep_serialize_jobs_debugfs_fops);
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */
 
 	return 0;
 
@@ -4355,7 +4362,7 @@ static void kbase_device_debugfs_term(struct kbase_device *kbdev)
 	debugfs_remove_recursive(kbdev->mali_debugfs_directory);
 }
 
-#else /* CONFIG_HISI_DEBUG_FS */
+#else /* CONFIG_DEBUG_FS */
 static inline int kbase_device_debugfs_init(struct kbase_device *kbdev)
 {
 	kbasep_gpu_memory_debugfs_init(kbdev);
@@ -4363,7 +4370,7 @@ static inline int kbase_device_debugfs_init(struct kbase_device *kbdev)
 }
 
 static inline void kbase_device_debugfs_term(struct kbase_device *kbdev) { }
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */
 
 static void kbase_device_coherency_init(struct kbase_device *kbdev,
 		unsigned prod_id)

@@ -33,6 +33,13 @@ static int hisifd_list_index;
 
 #define HISI_FB_ION_CLIENT_NAME	"hisi_fb_ion"
 
+struct fb_dmabuf_export {
+	__u32 fd;
+	__u32 flags;
+};
+
+#define FBIOGET_DMABUF _IOR('F', 0xee, struct fb_dmabuf_export)
+
 uint32_t g_dts_resouce_ready = 0;
 uint32_t g_fastboot_enable_flag = 0;
 uint32_t g_fake_lcd_flag = 0;
@@ -1012,6 +1019,31 @@ static int hisifb_dss_get_platform_type(struct fb_info *info, void __user *argp)
 	return ret;
 }
 
+static int hisi_fb_dmabuf_export(struct fb_info* info, void __user* argp) {
+	int ret;
+	struct hisi_fb_data_type *hisifd = NULL;
+	struct fb_dmabuf_export dmabuf_export;
+
+	hisifd = (struct hisi_fb_data_type *) info->par;
+	ret = copy_from_user(&dmabuf_export, argp, sizeof(struct fb_dmabuf_export));
+	if (ret) {
+		HISI_FB_ERR("copy_from_user failed! ret=%d", ret);
+		ret = -EINVAL;
+	} else {
+		dmabuf_export.flags = 0;
+		dmabuf_export.fd = ion_share_dma_buf_fd(hisifd->ion_client, hisifd->ion_handle);
+		if (dmabuf_export.fd < 0) {
+			HISI_FB_ERR("failed to ion_share!");
+		}
+		ret = copy_to_user(argp, &dmabuf_export, sizeof(struct fb_dmabuf_export));
+		if (ret) {
+			HISI_FB_ERR("copy_to_user failed! ret=%d", ret);
+			ret = -EFAULT;
+		}
+	}
+	return ret;
+}
+
 static int hisi_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg)
 {
 	int ret = -ENOSYS;
@@ -1036,6 +1068,10 @@ static int hisi_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long a
 	//sigprocmask(SIG_SETMASK, &setmask, &oldmask);
 
 	switch (cmd) { //lint -e30, -e142
+	case FBIOGET_DMABUF:
+		ret = hisi_fb_dmabuf_export(info, argp);
+		break;
+
 	case HISIFB_VSYNC_CTRL:
 		if (hisifd->vsync_ctrl_fnc) {
 			ret = hisifd->vsync_ctrl_fnc(info, argp);

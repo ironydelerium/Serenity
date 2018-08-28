@@ -562,7 +562,7 @@ void kbase_set_driver_inactive(struct kbase_device *kbdev, bool inactive);
 #endif /* CONFIG_MALI_DEBUG */
 
 
-#if defined(CONFIG_HISI_DEBUG_FS) && !defined(CONFIG_MALI_NO_MALI)
+#if defined(CONFIG_DEBUG_FS) && !defined(CONFIG_MALI_NO_MALI)
 
 /* kbase_io_history_init - initialize data struct for register access history
  *
@@ -599,7 +599,7 @@ void kbase_io_history_dump(struct kbase_device *kbdev);
  */
 int kbase_io_history_resize(struct kbase_io_history *h, u16 new_size);
 
-#else /* CONFIG_HISI_DEBUG_FS */
+#else /* CONFIG_DEBUG_FS */
 
 #define kbase_io_history_init(...) ((int)0)
 
@@ -609,7 +609,7 @@ int kbase_io_history_resize(struct kbase_io_history *h, u16 new_size);
 
 #define kbase_io_history_resize CSTD_NOP
 
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */
 
 
 #endif

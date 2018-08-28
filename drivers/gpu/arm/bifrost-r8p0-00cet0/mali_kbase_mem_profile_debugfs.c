@@ -17,7 +17,7 @@
 
 #include <mali_kbase.h>
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 
 /** Show callback for the @c mem_profile debugfs file.
  *
@@ -110,7 +110,7 @@ void kbasep_mem_profile_debugfs_remove(struct kbase_context *kctx)
 	mutex_unlock(&kctx->mem_profile_lock);
 }
 
-#else /* CONFIG_HISI_DEBUG_FS */
+#else /* CONFIG_DEBUG_FS */
 
 int kbasep_mem_profile_debugfs_insert(struct kbase_context *kctx, char *data,
 					size_t size)
@@ -118,4 +118,4 @@ int kbasep_mem_profile_debugfs_insert(struct kbase_context *kctx, char *data,
 	kfree(data);
 	return 0;
 }
-#endif /* CONFIG_HISI_DEBUG_FS */
+#endif /* CONFIG_DEBUG_FS */

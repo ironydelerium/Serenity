@@ -517,7 +517,7 @@ static void kbasep_trace_hook_wrapper(void *param)
 	kbasep_trace_dump(kbdev);
 }
 
-#ifdef CONFIG_HISI_DEBUG_FS
+#ifdef CONFIG_DEBUG_FS
 struct trace_seq_state {
 	struct kbase_trace trace_buf[KBASE_TRACE_SIZE];
 	u32 start;
@@ -614,7 +614,7 @@ void kbasep_trace_debugfs_init(struct kbase_device *kbdev)
 void kbasep_trace_debugfs_init(struct kbase_device *kbdev)
 {
 }
-#endif				/* CONFIG_HISI_DEBUG_FS */
+#endif				/* CONFIG_DEBUG_FS */
 
 #else				/* KBASE_TRACE_ENABLE  */
 static int kbasep_trace_init(struct kbase_device *kbdev)

@@ -1,6 +1,6 @@
 /*
  *
- * (C) COPYRIGHT 2014-2017 ARM Limited. All rights reserved.
+ * (C) COPYRIGHT 2014-2016 ARM Limited. All rights reserved.
  *
  * This program is free software and is provided to you under the terms of the
  * GNU General Public License version 2 as published by the Free Software
@@ -30,9 +30,6 @@ int kbase_backend_early_init(struct kbase_device *kbdev)
 {
 	int err;
 
-	/*err = kbasep_platform_device_init(kbdev);
-	if (err)
-		return err;*/
 	if(!kbasep_platform_device_init(kbdev))
 		return -1;
 
