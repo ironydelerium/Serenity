@@ -1,7 +1,7 @@
 # Dependencies
 
-[mkbootimg](https://github.com/osm0sis/mkbootimg)
-[Linaro GCC 4.9 for aarch64-linux-gnu](https://releases.linaro.org/components/toolchain/binaries/latest-4/aarch64-linux-gnu/)
+* [mkbootimg](https://github.com/osm0sis/mkbootimg)
+* [Linaro GCC 4.9 for aarch64-linux-gnu](https://releases.linaro.org/components/toolchain/binaries/latest-4/aarch64-linux-gnu/)
 
 # Building
 
