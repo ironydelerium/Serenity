@@ -192,6 +192,8 @@ int hisifb_ctrl_fastboot(struct hisi_fb_data_type *hisifd)
 
 int hisifb_ctrl_on(struct hisi_fb_data_type *hisifd)
 {
+	return 0;
+/*
 	struct hisi_fb_panel_data *pdata = NULL;
 	int ret = 0;
 
@@ -221,10 +223,13 @@ int hisifb_ctrl_on(struct hisi_fb_data_type *hisifd)
 
 
 	return ret;
+*/
 }
 
 int hisifb_ctrl_off(struct hisi_fb_data_type *hisifd)
 {
+	return 0;
+/*
 	struct hisi_fb_panel_data *pdata = NULL;
 	int ret = 0;
 
@@ -258,6 +263,7 @@ int hisifb_ctrl_off(struct hisi_fb_data_type *hisifd)
 	}
 
 	return ret;
+*/
 }
 
 int hisifb_ctrl_lp(struct hisi_fb_data_type *hisifd, bool lp_enter)

@@ -280,6 +280,8 @@ struct platform_device *hisi_fb_add_device(struct platform_device *pdev)
 
 int hisi_fb_blank_sub(int blank_mode, struct fb_info *info)
 {
+	return 0;
+#if 0
 	struct hisi_fb_data_type *hisifd = NULL;
 	int ret = 0;
 	int curr_pwr_state = 0;
@@ -346,6 +348,7 @@ int hisi_fb_blank_sub(int blank_mode, struct fb_info *info)
 	up(&hisifd->blank_sem);
 
 	return ret;
+#endif
 }
 
 int fastboot_set_needed = 0;

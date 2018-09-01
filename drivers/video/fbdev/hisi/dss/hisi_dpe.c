@@ -674,6 +674,8 @@ static int dpe_clk_get(struct platform_device *pdev)
 
 static int dpe_on(struct platform_device *pdev)
 {
+	return 0;
+#if 0
 	int ret = 0;
 	struct hisi_fb_data_type *hisifd = NULL;
 
@@ -731,10 +733,14 @@ static int dpe_on(struct platform_device *pdev)
 	HISI_FB_DEBUG("fb%d, -.\n", hisifd->index);
 
 	return ret;
+#endif
+
 }
 
 static int dpe_off(struct platform_device *pdev)
 {
+	return 0;
+#if 0
 	int ret = 0;
 	struct hisi_fb_data_type *hisifd = NULL;
 
@@ -801,6 +807,7 @@ static int dpe_off(struct platform_device *pdev)
 	HISI_FB_DEBUG("fb%d, -.\n", hisifd->index);
 
 	return ret;
+#endif
 }
 
 static int dpe_lp_ctrl(struct platform_device *pdev, bool lp_enter)

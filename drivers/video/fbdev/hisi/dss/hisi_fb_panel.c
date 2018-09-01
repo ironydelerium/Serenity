@@ -478,6 +478,7 @@ int panel_next_set_fastboot(struct platform_device *pdev)
 int panel_next_on(struct platform_device *pdev)
 {
 	int ret = 0;
+/*
 	struct hisi_fb_panel_data *pdata = NULL;
 	struct hisi_fb_panel_data *next_pdata = NULL;
 	struct platform_device *next_pdev = NULL;
@@ -498,13 +499,14 @@ int panel_next_on(struct platform_device *pdev)
 		if ((next_pdata) && (next_pdata->on))
 			ret = next_pdata->on(next_pdev);
 	}
-
+*/
 	return ret;
 }
 
 int panel_next_off(struct platform_device *pdev)
 {
 	int ret = 0;
+/*
 	struct hisi_fb_panel_data *pdata = NULL;
 	struct hisi_fb_panel_data *next_pdata = NULL;
 	struct platform_device *next_pdev = NULL;
@@ -525,6 +527,7 @@ int panel_next_off(struct platform_device *pdev)
 		if ((next_pdata) && (next_pdata->off))
 			ret = next_pdata->off(next_pdev);
 	}
+*/
 
 	return ret;
 }

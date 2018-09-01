@@ -596,6 +596,8 @@ static int mipi_jdi_panel_on(struct platform_device *pdev)
 
 static int mipi_jdi_panel_off(struct platform_device *pdev)
 {
+	return 0;
+#if 0
 	struct hisi_fb_data_type *hisifd = NULL;
 	struct hisi_panel_info *pinfo = NULL;
 	int error = 0;
@@ -708,6 +710,7 @@ static int mipi_jdi_panel_off(struct platform_device *pdev)
 	HISI_FB_INFO("fb%d, -!\n", hisifd->index);
 
 	return 0;
+#endif
 }
 
 static int mipi_jdi_panel_remove(struct platform_device *pdev)
