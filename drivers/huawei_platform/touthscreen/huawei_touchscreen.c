@@ -5502,6 +5502,9 @@ static inline bool ts_cmd_need_process(struct ts_cmd_node *cmd)
 			case TS_GET_CHIP_INFO:
 				is_need_process = true;
 				break;
+			case TS_WAKEUP_GESTURE_ENABLE:
+				is_need_process = true;
+				break;
 			default:
 				is_need_process = false;
 				break;
@@ -5517,6 +5520,9 @@ static inline bool ts_cmd_need_process(struct ts_cmd_node *cmd)
 				is_need_process = true;
 				break;
 			case TS_OEM_INFO_SWITCH:
+				is_need_process = true;
+				break;
+			case TS_WAKEUP_GESTURE_ENABLE:
 				is_need_process = true;
 				break;
 			case TS_GET_CHIP_INFO:
