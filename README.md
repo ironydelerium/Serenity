@@ -35,6 +35,11 @@ By default, running `./make_image.sh` will do a full build and place the resulti
   (Huawei, of course, didn't make these easy to remove; the code didn't account for the options at all.)
 * Mali driver has been patched to allow the use of the [HiKey960](https://www.96boards.org/product/hikey960/) Mali driver stack, instead of the Huawei stack.
 
+# Known issues
+
+* Disabled DSS panel shutoff. Pie currently fails to re-enable the display panel once it's been shut off, and ioctl(framebuffer_fd, FBIOBLANK, FB_BLANK_UNBLANK)
+  does not seem to correct this.
+
 # Thanks
 
 [wirmpolter](https://gituhb.com/wirmpolter)
